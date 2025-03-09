@@ -10,8 +10,20 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json());
+
+const allowedOrigins = ['http://localhost:5173','http://localhost:5174'];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if(allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+};
+
 //app.use(cors());
-app.use(cors({ origin: "*" })); // Accepte toutes les origines (à sécuriser en prod)
+app.use(cors(corsOptions));
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev')); //Affiche les requêtes HTTP dans la console selon l'environnement
 
 app.use('/api', userRoutes);
