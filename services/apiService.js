@@ -1,10 +1,15 @@
-const axios = require('axios');
+const db = require("../db");
 
-exports.getExternalData = async () => {
-    try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com.users');
-        return response.data;
-    } catch(error) {
-        throw new Error('Error while calling API');
-    }
+const executeQuery = (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+        db.query(sql, params, (err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(results);
+            }
+        });
+    });
 };
+
+module.exports = { executeQuery };
