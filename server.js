@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 //app.use(cors());
-app.use(cors({ origin: "http://localhost:5174" }));
+app.use(cors({ origin: "*" })); // Accepte toutes les origines (à sécuriser en prod)
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev')); //Affiche les requêtes HTTP dans la console selon l'environnement
 
 app.use('/api', userRoutes);
