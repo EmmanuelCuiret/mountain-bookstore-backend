@@ -35,25 +35,25 @@ const pool = require('./config/db');
 // 🔹 Vérification de la connexion à MariaDB avant de démarrer le serveur
 async function startServer() {
     try {
-        console.log('🔍 Vérification de la connexion à la base de données...');
+        //console.log('🔍 Vérification de la connexion à la base de données...');
         const [rows] = await pool.query('SELECT * from users');
-        console.log([rows]);
-        console.log('✅ Connexion réussie à MariaDB !');
+        //console.log([rows]);
+        //console.log('✅ Connexion réussie à MariaDB !');
 
         // 🔥 Test de executeQuery()
         const { executeQuery } = require("./services/apiService");
 
         async function testQuery() {
             try {
-                console.log("🟡 Test de executeQuery...");
+                //console.log("🟡 Test de executeQuery...");
                 const sql = "SELECT * FROM users WHERE login = ?";
                 const params = ["becode"];
                 
-                console.log("🟡 Requête SQL :", sql, "avec paramètres :", params);
+                //console.log("🟡 Requête SQL :", sql, "avec paramètres :", params);
                 
                 const result = await executeQuery(sql, params);
                 
-                console.log("🟢 Résultat du test executeQuery :", result);
+                //console.log("🟢 Résultat du test executeQuery :", result);
                 
                 if (result.length === 0) {
                     console.warn("⚠️ Aucun utilisateur trouvé avec ce login.");

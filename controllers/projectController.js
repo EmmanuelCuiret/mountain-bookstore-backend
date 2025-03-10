@@ -58,9 +58,9 @@ class ProjectController {
         try {
             const result = await ProjectModel.deleteProject(req.params.id);
             if (result.affectedRows === 0) {
-                return res.status(404).json({ error: "Project not found" });
+                return res.status(404).json({ error: "Project not found", success: false });
             }
-            res.json({ message: "Project deleted successfully!" });
+            res.json({ message: "Project deleted successfully!", success: true });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -79,9 +79,9 @@ class ProjectController {
     //Récupère les projets et leurs candidats
     static async getProjectsWithCandidates(req, res) {
         try {
-            console.log("➡️ Requête reçue sur /projects-with-candidates");
+            //console.log("➡️ Requête reçue sur /projects-with-candidates");
             const results = await ProjectModel.getProjectsWithCandidates();
-            console.log("✅ Résultat obtenu :", results);
+            //console.log("✅ Résultat obtenu :", results);
 
             // Regrouper les candidats par projet
             const projectsMap = new Map();
@@ -98,7 +98,7 @@ class ProjectController {
 
             res.json(Array.from(projectsMap.values()));
         } catch (error) {
-            console.error("❌ Erreur dans ProjectController.getProjectsWithCandidates :", error);
+            //console.error("❌ Erreur dans ProjectController.getProjectsWithCandidates :", error);
             res.status(500).json({ error: error.message });
         }
     }

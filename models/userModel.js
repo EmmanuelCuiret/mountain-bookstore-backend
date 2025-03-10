@@ -3,14 +3,14 @@ const { executeQuery } = require("../services/apiService");
 class User {
     static getUserByLogin(login) {
         const sql = "SELECT * FROM users WHERE login = ?";
-        console.log("🟡 Exécution de la requête :", sql, "avec", login);
+        //console.log("🟡 Exécution de la requête :", sql, "avec", login);
         return executeQuery(sql, [login])
             .then(rows => {
-                console.log("🟢 Résultat de la requête :", rows);
+                //console.log("🟢 Résultat de la requête :", rows);
                 return rows[0];
             })
             .catch(error => {
-                console.error("🔴 Erreur lors de l'exécution de la requête :", error);
+                //console.error("🔴 Erreur lors de l'exécution de la requête :", error);
                 throw error;
             });
     }
