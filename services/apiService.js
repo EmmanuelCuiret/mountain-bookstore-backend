@@ -1,15 +1,18 @@
-const db = require("../config/db");
+const pool = require('../config/db');
 
-const executeQuery = (sql, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.query(sql, params, (err, results) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(results);
-            }
-        });
-    });
-};
+async function executeQuery(sql, params = []) {
+    try {
+        console.log("🟡 executeQuery() - SQL:", sql);
+        console.log("🟡 executeQuery() - Params:", params);
+
+        const [rows] = await pool.query(sql, params);
+
+        console.log("🟢 executeQuery() - Résultat :", rows);
+        return rows;
+    } catch (error) {
+        console.error("🔴 Erreur dans executeQuery :", error);
+        throw error;
+    }
+}
 
 module.exports = { executeQuery };

@@ -1,6 +1,8 @@
 const Candidate = require("../models/candidateModel");
 
 class CandidateController {
+
+    //R2cupération des candidats d'un projet
     static async getCandidatesByProject(req, res) {
         try {
             const projectId = req.params.id;
@@ -11,6 +13,7 @@ class CandidateController {
         }
     }
 
+    //Ajout d'un candidat à un projet
     static async addCandidate(req, res) {
         try {
             const projectId = req.params.id;
@@ -27,6 +30,7 @@ class CandidateController {
         }
     }
 
+    //Suppression d'un candidat à un projet
     static async deleteCandidate(req, res) {
         try {
             const candidateId = req.params.id;
@@ -41,6 +45,7 @@ class CandidateController {
             res.status(500).json({ error: "Server error", details: error.message });
         }
     }
+
 }
 
 module.exports = CandidateController;

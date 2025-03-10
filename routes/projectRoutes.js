@@ -19,4 +19,7 @@ router.patch("/project/:id", authMiddleware, ProjectController.updateProject);
 // 📌 Efface un projet
 router.delete("/project/:id", authMiddleware, ProjectController.deleteProject);
 
+// 📌 Récupère les projets et leurs candidats
+router.get("/projects-with-candidates", authMiddleware, ProjectController.getProjectsWithCandidates);
+
 module.exports = router;

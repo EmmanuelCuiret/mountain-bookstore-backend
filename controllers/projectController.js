@@ -1,6 +1,8 @@
 const ProjectModel = require("../models/projectModel");
 
 class ProjectController {
+
+    //Récupération de tous les projets 
     static async getAllProjects(req, res) {
         try {
             const projects = await ProjectModel.getAllProjects();
@@ -10,6 +12,7 @@ class ProjectController {
         }
     }
 
+    //Récupération d'un projet en particulier
     static async getProjectById(req, res) {
         try {
             const project = await ProjectModel.getProjectById(req.params.id);
@@ -22,6 +25,7 @@ class ProjectController {
         }
     }
 
+    //Création d'un projet
     static async createProject(req, res) {
         const { title, description, author, technologies } = req.body;
         if (!title || !description || !author) {
@@ -35,6 +39,7 @@ class ProjectController {
         }
     }
 
+    //Mise à jour d'un projet
     static async updateProject(req, res) {
         try {
             const { title, author, description, technologies } = req.body;
@@ -48,6 +53,7 @@ class ProjectController {
         }
     }
 
+    //Effacement d'un projet
     static async deleteProject(req, res) {
         try {
             const result = await ProjectModel.deleteProject(req.params.id);
@@ -60,6 +66,7 @@ class ProjectController {
         }
     }
 
+    //Récupère les candidats d'un projet (l'auteur inclu)
     static async getProjectCandidates(req, res) {
         try {
             const candidates = await ProjectModel.getProjectCandidates(req.params.id);
@@ -68,6 +75,34 @@ class ProjectController {
             res.status(500).json({ error: error.message });
         }
     }
+
+    //Récupère les projets et leurs candidats
+    static async getProjectsWithCandidates(req, res) {
+        try {
+            console.log("➡️ Requête reçue sur /projects-with-candidates");
+            const results = await ProjectModel.getProjectsWithCandidates();
+            console.log("✅ Résultat obtenu :", results);
+
+            // Regrouper les candidats par projet
+            const projectsMap = new Map();
+            results.forEach(row => {
+                if (!projectsMap.has(row.id)) {
+                    projectsMap.set(row.id, {
+                        id: row.id,
+                        title: row.title,
+                        candidates: []
+                    });
+                }
+                projectsMap.get(row.id).candidates.push(row.candidate_name);
+            });
+
+            res.json(Array.from(projectsMap.values()));
+        } catch (error) {
+            console.error("❌ Erreur dans ProjectController.getProjectsWithCandidates :", error);
+            res.status(500).json({ error: error.message });
+        }
+    }
+
 }
 
 module.exports = ProjectController;

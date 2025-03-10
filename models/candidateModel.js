@@ -1,6 +1,8 @@
 const { executeQuery } = require("../services/apiService");
 
 class CandidateModel {
+
+    //Récupération des candidats d'un projet
     static getCandidatesByProject(projectId) {
         const sql = `
             SELECT * FROM (
@@ -26,11 +28,13 @@ class CandidateModel {
         return executeQuery(sql, [projectId, projectId]);
     }
 
+    //Ajout d'un candidat à un projet
     static addCandidate(projectId, candidateName) {
         const sql = "INSERT INTO candidates (name, project_id) VALUES (?, ?)";
         return executeQuery(sql, [candidateName, projectId]);
     }
 
+    //Suppression d'un candidat d'un projet
     static deleteCandidate(candidateId) {
         const sql = "DELETE FROM candidates WHERE id = ?";
         return executeQuery(sql, [candidateId]);
